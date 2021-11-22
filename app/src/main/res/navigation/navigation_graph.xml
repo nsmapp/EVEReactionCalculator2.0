@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/projectsFragment">
+    <fragment
+        android:id="@+id/reactorFragment"
+        android:name="by.nepravsky.sm.evereactioncalculator.presentation.recipe.reactor.ReactorFragment"
+        android:label="reactor_fragment"
+        tools:layout="@layout/reactor_fragment">
+        <action
+            android:id="@+id/to_productLine"
+            app:destination="@id/productLineFragment" />
+        <action
+            android:id="@+id/action_reactorFragment_to_buildReaction"
+            app:destination="@id/buildReaction" />
+    </fragment>
+    <fragment
+        android:id="@+id/projectsFragment"
+        android:name="by.nepravsky.sm.evereactioncalculator.presentation.project.projects.ProjectsFragment"
+        android:label="projects_fragment"
+        tools:layout="@layout/projects_fragment" >
+        <action
+            android:id="@+id/to_buildReaction"
+            app:destination="@id/buildReaction" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="by.nepravsky.sm.evereactioncalculator.presentation.settings.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/buildReaction"
+        android:name="by.nepravsky.sm.evereactioncalculator.presentation.project.build.BuildReactionFragment"
+        android:label="build_reaction"
+        tools:layout="@layout/build_reaction_fragment">
+        <argument
+            android:name="reaction_id"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="project_type_id"
+            app:argType="long"
+            android:defaultValue="1L" />
+    </fragment>
+    <fragment
+        android:id="@+id/productLineFragment"
+        android:name="by.nepravsky.sm.evereactioncalculator.presentation.recipe.productline.ProductLineFragment"
+        android:label="product_line_fragment"
+        tools:layout="@layout/product_line_fragment" >
+        <argument
+            android:name="project_id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_productLineFragment_to_itemCreateFragment"
+            app:destination="@id/itemCreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemCreateFragment"
+        android:name="by.nepravsky.sm.evereactioncalculator.presentation.recipe.createitem.ItemCreateFragment"
+        android:label="create_item_fragment"
+        tools:layout="@layout/create_item_fragment" >
+        <argument
+            android:name="project_id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="item_id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="item_name"
+            app:argType="string"
+            android:defaultValue=" " />
+        <argument
+            android:name="item_run_count"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <argument
+            android:name="is_edit_mode"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="by.nepravsky.sm.evereactioncalculator.presentation.settings.about.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
+</navigation>

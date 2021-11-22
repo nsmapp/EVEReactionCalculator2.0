@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/reactorFragment"
+        android:icon="@drawable/outline_article_24"
+        android:title="@string/recipe" />
+
+    <item
+        android:id="@+id/projectsFragment"
+        android:icon="@drawable/outline_play_arrow_24"
+        android:title="@string/projects" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/outline_tune_24"
+        android:title="@string/settings" />
+
+
+</menu>

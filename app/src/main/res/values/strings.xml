@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">EVE Reaction Calculator</string>
+    <string name="recipe">Recipe</string>
+    <string name="projects">Projects</string>
+    <string name="settings">Settings</string>
+    <string name="base_reaction_time">Base reaction time</string>
+    <string name="me">ME</string>
+    <string name="sub_me">Subproduct ME</string>
+    <string name="run">Run</string>
+    <string name="base_materials">base materials</string>
+    <string name="build_reaction">Build reaction...</string>
+    <string name="material">material</string>
+    <string name="product">product</string>
+    <string name="zero">0</string>
+    <string name="one">1</string>
+    <string name="search">Search</string>
+    <string name="project_name">Project name</string>
+    <string name="save_project_line">Save project line</string>
+    <string name="add_product_line">Add product line</string>
+    <string name="unit_per_run">Unit per run</string>
+    <string name="search_panel">Search panel</string>
+    <string name="filter">filter</string>
+    <string name="reaction_list">Reaction list</string>
+    <string name="group_list">Group list</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="eve_copy_info">EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP hf. CCP is in no way responsible for the content on or functioning of this app, nor can it be liable for any damage arising from the use of this app.</string>
+    <string name="marketer">Additional data about price from: evemarketer</string>
+    <string name="github">GitHub: github.com/nsmapp</string>
+    <string name="mail">E-mail: nsmappinfo@gmail.com</string>
+    <string name="about">About</string>
+</resources>

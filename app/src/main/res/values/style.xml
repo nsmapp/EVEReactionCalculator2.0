@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="base_text_view_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+    <style name="base_text_view_12_light">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="base_text_view">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+    <style name="base_text_view_bold">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="base_text_view_16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+    <style name="base_text_view_16_bold">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="til_center" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="til_drop_down" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="android:background">@color/base_background</item>
+    </style>
+
+    <style name="et_auto_complete_end_gravity">
+        <item name="android:imeOptions">flagNoExtractUi|actionDone</item>
+        <item name="android:inputType">none</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:gravity">end|center_vertical</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+    </style>
+
+    <style name="base_card_view" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/base_view_background</item>
+    </style>
+
+    <style name="base_view" parent="Widget.MaterialComponents.CardView">
+        <item name="android:background">@drawable/border_base</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+    </style>
+
+</resources>
