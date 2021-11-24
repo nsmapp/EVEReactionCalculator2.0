@@ -8,7 +8,7 @@
     <item
         android:id="@+id/projectsFragment"
         android:icon="@drawable/outline_play_arrow_24"
-        android:title="@string/projects" />
+        android:title="@string/reactions" />
 
     <item
         android:id="@+id/settingsFragment"

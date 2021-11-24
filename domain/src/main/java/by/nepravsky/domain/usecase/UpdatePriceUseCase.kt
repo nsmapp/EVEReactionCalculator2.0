@@ -20,7 +20,7 @@ class UpdatePriceUseCase(
         requests: List<ItemRequest>,
         settings: Settings
     ): Result<Unit> =
-        withContext(IO){
+        withContext(IO) {
             runFun { update(requests, settings) }
         }
 
@@ -28,7 +28,7 @@ class UpdatePriceUseCase(
         requests: ItemRequest,
         settings: Settings
     ): Result<Unit> =
-        withContext(IO){
+        withContext(IO) {
             runFun { update(listOf(requests), settings) }
         }
 
@@ -42,42 +42,36 @@ class UpdatePriceUseCase(
 
 
         val reactions = reactionRepository.hasReactionFormula(requests, settings)
-        itemIdsSet.addAll( reactions.map { it.products }.flatten().map { it.typeId })
-        tmpMaterialIds.addAll(reactions.map { it.materials}.flatten().map { it.typeId })
+        itemIdsSet.addAll(reactions.map { it.products }.flatten().map { it.typeId })
+        tmpMaterialIds.addAll(reactions.map { it.materials }.flatten().map { it.typeId })
         itemIdsSet.addAll(tmpMaterialIds)
 
-        do{
+        do {
             val requestIds = tmpMaterialIds.filter { it !in itemIdsSet }
             val subReactions = reactionRepository.hasReactionFormula(
                 requestIds.map { ItemRequest(it) },
                 settings
             )
             tmpMaterialIds.clear()
-            itemIdsSet.addAll( subReactions.map { it.products }.flatten().map { it.typeId })
-            tmpMaterialIds.addAll(subReactions.map { it.materials}.flatten().map { it.typeId })
+            itemIdsSet.addAll(subReactions.map { it.products }.flatten().map { it.typeId })
+            tmpMaterialIds.addAll(subReactions.map { it.materials }.flatten().map { it.typeId })
             itemIdsSet.addAll(tmpMaterialIds)
-
-        }while (subReactions.isNotEmpty())
+        } while (subReactions.isNotEmpty())
 
         val itemsForUpdate = priceRepository
-            .getItemIdsForUpdate(PriceListRequest(itemIdsSet.toList()))
+            .getItemIdsForUpdate(PriceListRequest(itemIdsSet.toList()), settings)
 
-        val orders = requestPrices(itemsForUpdate, settings)
+        if(itemsForUpdate.isEmpty()) return
+
+        val orders: List<OrderPrice> = requestPrices(itemsForUpdate, settings)
         priceRepository.save(orders)
     }
-    //TODO УДАЛИТЬ ДО РЕЛИЗА
-//    suspend fun udpateAll(ids: List<Int>, systemId: Int){
-//        val st = Settings(systemId = systemId, priceUpdateSource = 2)
-//        val price = requestPrices(ids, st)
-//        priceRepository.save(price)
-//    }
-
 
     private suspend fun requestPrices(
         itemIds: List<Int>,
         settings: Settings
     ): List<OrderPrice> =
-        when(settings.priceUpdateSource){
+        when (settings.priceUpdateSource) {
             PriceSource.EVE_TECH.id -> {
                 val orderPrices = mutableListOf<OrderPrice>()
                 itemIds.forEach { itemId ->
@@ -96,7 +90,8 @@ class UpdatePriceUseCase(
                 )
             }
             else -> {
-                listOf<OrderPrice>()}
+                listOf<OrderPrice>()
+            }
         }
 
 }

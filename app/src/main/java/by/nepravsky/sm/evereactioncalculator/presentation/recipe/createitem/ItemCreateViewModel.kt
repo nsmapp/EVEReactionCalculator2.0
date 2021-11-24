@@ -147,7 +147,7 @@ class ItemCreateViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val run = _projectItem.value?.let {
                 val count = it.run - 1
-                if (count >= 0) count else 1
+                if (count >= 1) count else 1
             } ?: 1
 
             _projectItem.update { item ->

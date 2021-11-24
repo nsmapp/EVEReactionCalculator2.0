@@ -26,7 +26,7 @@ class FullReactionUseCase(
         reactionRequests: List<ReactionRequest>,
         settings: Settings
     ): Result<ReactionInfo> =
-        withContext(IO){
+        withContext(IO) {
             runFun { makeReaction(reactionRequests, settings) }
         }
 
@@ -34,7 +34,7 @@ class FullReactionUseCase(
         reactionRequest: ReactionRequest,
         settings: Settings
     ): Result<ReactionInfo> =
-        withContext(IO){
+        withContext(IO) {
             runFun { makeReaction(listOf(reactionRequest), settings) }
         }
 
@@ -53,13 +53,13 @@ class FullReactionUseCase(
 
             val reaction = reactionRepository.get(request, settings)
             val productItems = reaction.products
-                .map { element ->  requestReactionItem(element, settings)}
-                .map { multiRunProducts(request, it)}
+                .map { element -> requestReactionItem(element, settings) }
+                .map { multiRunProducts(request, it) }
             products.addAll(productItems)
 
             val materialItems = reaction.materials
-                .map { element ->  requestReactionItem(element, settings)}
-                .map { multiRunMaterials(it, reaction, settings.me, request.run)}
+                .map { element -> requestReactionItem(element, settings) }
+                .map { multiRunMaterials(it, reaction, settings.me, request.run) }
 
             subMaterials.addAll(materialItems)
         }
@@ -68,17 +68,17 @@ class FullReactionUseCase(
             groupItem(subMaterials),
             settings
         )
-
-        do {
-            baseMaterials.addAll(subProduct.baseMaterials)
-            subProduct = makeSubReaction(
-                subProduct.complexMaterials,
-                settings
-            )
-            if (subProduct.complexMaterials.isEmpty()) baseMaterials.addAll(subProduct.baseMaterials)
-        }while (subProduct.complexMaterials.isNotEmpty())
-
-
+        if (subProduct.complexMaterials.isEmpty()) baseMaterials.addAll(subMaterials)
+        else {
+            do {
+                baseMaterials.addAll(subProduct.baseMaterials)
+                subProduct = makeSubReaction(
+                    subProduct.complexMaterials,
+                    settings
+                )
+                if (subProduct.complexMaterials.isEmpty()) baseMaterials.addAll(subProduct.baseMaterials)
+            } while (subProduct.complexMaterials.isNotEmpty())
+        }
 
         products = groupItem(products)
         baseMaterials = groupItem(baseMaterials)
@@ -90,9 +90,9 @@ class FullReactionUseCase(
             baseMaterials.sumOf { it.buy },
             baseMaterials.sumOf { it.volume },
             baseMaterials.sumOf { it.quantity },
-            products.sumOf { it.sell } ,
-            products.sumOf { it.buy } ,
-            products.sumOf { it.volume } ,
+            products.sumOf { it.sell },
+            products.sumOf { it.buy },
+            products.sumOf { it.volume },
             products.sumOf { it.quantity }
         )
 
@@ -101,7 +101,7 @@ class FullReactionUseCase(
     private suspend fun makeSubReaction(
         materials: List<ReactionItem>,
         settings: Settings
-    ): SubProduct{
+    ): SubProduct {
 
         var subMaterials = mutableListOf<ReactionItem>()
 
@@ -110,14 +110,14 @@ class FullReactionUseCase(
                 listOf(ItemRequest(item.typeId)),
                 settings
             )
-            if (reactions.isNotEmpty()){
+            if (reactions.isNotEmpty()) {
                 val reaction = reactions[0]
                 val productQnt = reaction.products.first { it.typeId == item.typeId }.quantity
                 val minRun = ceil(item.quantity.toDouble() / productQnt.toDouble()).toInt()
 
                 val materialItems = reaction.materials
-                    .map { element ->  requestReactionItem(element, settings)}
-                    .map { multiRunMaterials(it, reaction, settings.subME, minRun)}
+                    .map { element -> requestReactionItem(element, settings) }
+                    .map { multiRunMaterials(it, reaction, settings.subME, minRun) }
                 subMaterials.addAll(materialItems)
             }
         }
@@ -129,7 +129,7 @@ class FullReactionUseCase(
     private suspend fun makeSubProduct(
         items: List<ReactionItem>,
         settings: Settings
-    ): SubProduct{
+    ): SubProduct {
         val baseMaterials = mutableListOf<ReactionItem>()
         val complexMaterials = mutableListOf<ReactionItem>()
         val reactionIds = reactionRepository.hasReactionFormula(
@@ -139,7 +139,7 @@ class FullReactionUseCase(
 
         items.forEach { item ->
             if (item.typeId in reactionIds) complexMaterials.add(item)
-                else baseMaterials.add(item)
+            else baseMaterials.add(item)
         }
 
         return SubProduct(baseMaterials, complexMaterials)
@@ -194,7 +194,7 @@ class FullReactionUseCase(
         val sell = productItem.sell * quantity
         val buy = productItem.buy * quantity
         return ReactionItem(
-            productItem.typeId,productItem.groupId,
+            productItem.typeId, productItem.groupId,
             volume, quantity,
             productItem.name, productItem.basePrice,
             sell, buy, productItem.isCorrectElement
@@ -210,15 +210,13 @@ class FullReactionUseCase(
                 element,
                 itemRepository.get(ItemRequest(element.typeId), settings)
             )
-        }catch (e: Exception){
+        } catch (e: Exception) {
             ReactionItem(
                 element.typeId, -1, 0.0,
                 0, "unknown item: ${element.typeId}",
-                0.0, 0.0,0.0, false
+                0.0, 0.0, 0.0, false
             )
         }
-
-
 
 
 }

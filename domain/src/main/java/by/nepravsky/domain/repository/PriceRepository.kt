@@ -14,6 +14,6 @@ interface PriceRepository {
 
     suspend fun save(orderPrices: List<OrderPrice>): List<Long>
 
-    suspend fun getItemIdsForUpdate(request: PriceListRequest): List<Int>
+    suspend fun getItemIdsForUpdate(request: PriceListRequest, settings: Settings): List<Int>
 
 }

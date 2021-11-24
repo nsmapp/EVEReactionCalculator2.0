@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/drawable-night/ic_arrow_down.xml" value="0.298" />
         <entry key="app/src/main/res/drawable-night/ic_arrow_up.xml" value="0.298" />
         <entry key="app/src/main/res/drawable-night/outline_add_24.xml" value="0.277" />
+        <entry key="app/src/main/res/drawable-night/outline_delete_24.xml" value="0.282" />
         <entry key="app/src/main/res/drawable-night/outline_filter_alt_24.xml" value="0.277" />
         <entry key="app/src/main/res/drawable-night/outline_play_arrow_24.xml" value="0.277" />
         <entry key="app/src/main/res/drawable-night/outline_tune_24.xml" value="0.277" />
@@ -27,6 +28,7 @@
         <entry key="app/src/main/res/drawable/ic_arrow_up.xml" value="0.263" />
         <entry key="app/src/main/res/drawable/outline_add_24.xml" value="0.113" />
         <entry key="app/src/main/res/drawable/outline_article_24.xml" value="0.277" />
+        <entry key="app/src/main/res/drawable/outline_delete_24.xml" value="0.282" />
         <entry key="app/src/main/res/drawable/outline_play_arrow_24.xml" value="0.277" />
         <entry key="app/src/main/res/drawable/outline_plus_one_24.xml" value="0.277" />
         <entry key="app/src/main/res/drawable/outline_tune_24.xml" value="0.277" />

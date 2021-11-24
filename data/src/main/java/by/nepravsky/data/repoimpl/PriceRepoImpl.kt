@@ -26,8 +26,8 @@ class PriceRepoImpl(
     override suspend fun save(orderPrices: List<OrderPrice>): List<Long> =
         priceDAORepository.save(orderPrices)
 
-    override suspend fun getItemIdsForUpdate(request: PriceListRequest): List<Int> =
-        priceDAORepository.needUpdate(request)
+    override suspend fun getItemIdsForUpdate(request: PriceListRequest, settings: Settings): List<Int> =
+        priceDAORepository.needUpdate(request, settings)
 
 
 }
