@@ -7,9 +7,8 @@ import by.nepravsky.domain.repository.PriceSourceRepository
 
 class PriceSourceRepoImpl(private val appDatabase: AppDatabase): PriceSourceRepository {
 
-    override suspend fun getAll(): List<PriceSource> = appDatabase.typePriceSourceDao().getAll()
+    override fun getAll(): List<PriceSource> = appDatabase.typePriceSourceDao().getAll()
         .map{toDomain(it)}
-
 
 
     private fun toDomain(typePriceSource: TypePriceSource): PriceSource =

@@ -9,18 +9,18 @@ import by.nepravsky.domain.entity.request.SearchReactionRequest
 interface ReactionDAORepository {
 
 
-    suspend fun getAll(settings: Settings): List<ReactionFormula>
-    suspend fun getByIds(
+    fun getAll(settings: Settings): List<ReactionFormula>
+    fun getByIds(
         reactionRequest: ReactionRequest,
         settings: Settings
     ): ReactionFormula
 
-    suspend fun hasReactionFormula(
+    fun hasReactionFormula(
         items: List<ItemRequest>,
         settings: Settings
     ): List<ReactionFormula>
 
-    suspend fun getByName(
+    fun getByName(
         searchReactionRequest: SearchReactionRequest,
         settings: Settings
     ): List<ReactionFormula>

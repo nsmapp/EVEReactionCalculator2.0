@@ -8,5 +8,5 @@ interface ItemRepository {
 
     suspend fun getAllItemIds():List<Int>
 
-    suspend fun get(itemRequest: ItemRequest, settings: Settings): Item
+    fun get(itemRequest: ItemRequest, settings: Settings): Item
 }

@@ -5,19 +5,23 @@ import by.nepravsky.data.database.entity.Group
 import by.nepravsky.domain.entity.domain.ItemGroup
 import by.nepravsky.domain.entity.request.Settings
 
-class GroupDAORepoImpl(private val appDatabase: AppDatabase): GroupDAORepository {
+class GroupDAORepoImpl(private val appDatabase: AppDatabase) : GroupDAORepository {
 
-    override suspend fun getAll(settings: Settings): List<ItemGroup> =
+    override fun getAll(settings: Settings): List<ItemGroup> =
         appDatabase.groupDao().getAll()
-            .map { toDomain(it, settings) }
+            .map {
+                val reaction = appDatabase.reactionDao().getByGroup(it.id)
+                toDomain(it, settings, reaction.id)
+            }
 
 
-    private fun toDomain(group: Group, settings: Settings): ItemGroup =
+    private fun toDomain(group: Group, settings: Settings, iconId: Int): ItemGroup =
         ItemGroup(
             group.id,
             group.isFormula,
             group.category,
-            group.getName(settings.languageId)
+            group.getName(settings.languageId),
+            iconId
         )
 
 }

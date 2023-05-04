@@ -1,4 +1,5 @@
 
+import by.nepravsky.domain.entity.Answer
 import by.nepravsky.domain.entity.base.ReactionFormula
 import by.nepravsky.domain.entity.base.ReactionFormulaElement
 import by.nepravsky.domain.entity.presenter.ReactionInfo
@@ -13,6 +14,7 @@ import by.nepravsky.domain.entity.request.ReactionRequest
 import by.nepravsky.domain.entity.request.Settings
 import by.nepravsky.domain.repository.ItemRepository
 import by.nepravsky.domain.repository.ReactionRepository
+import by.nepravsky.domain.utils.runFunc
 import kotlin.math.roundToInt
 
 class BaseReactionUseCase(
@@ -23,21 +25,15 @@ class BaseReactionUseCase(
     suspend fun run(
         reactionRequests: List<ReactionRequest>,
         settings: Settings
-    ): Result<ReactionInfo> =
-        withContext(IO){
-            runFun { makeReaction(reactionRequests, settings) }
-        }
+    ): Answer<ReactionInfo> = runFunc { makeReaction(reactionRequests, settings) }
 
     suspend fun run(
         reactionRequest: ReactionRequest,
         settings: Settings
-    ): Result<ReactionInfo> =
-        withContext(IO){
-            runFun { makeReaction(listOf(reactionRequest), settings) }
-        }
+    ): Answer<ReactionInfo> = runFunc { makeReaction(listOf(reactionRequest), settings) }
 
 
-    private suspend fun makeReaction(
+    private fun makeReaction(
         reactionRequests: List<ReactionRequest>,
         settings: Settings
     ): ReactionInfo {
@@ -130,7 +126,7 @@ class BaseReactionUseCase(
         )
     }
 
-    private suspend fun requestReactionItem(
+    private fun requestReactionItem(
         element: ReactionFormulaElement,
         settings: Settings
     ): ReactionItem =

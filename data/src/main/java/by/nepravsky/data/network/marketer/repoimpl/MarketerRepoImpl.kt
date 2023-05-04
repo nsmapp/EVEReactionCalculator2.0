@@ -13,16 +13,13 @@ class MarketerRepoImpl(
 ): MarketerRepository {
 
 
-    override suspend fun request(request: PriceListRequest, settings: Settings): List<OrderPrice> {
+    override fun request(request: PriceListRequest, settings: Settings): List<OrderPrice> {
         val chunkedTypeIds = if (request.itemIds.size > 190) request.itemIds.chunked(190)
                                 else listOf(request.itemIds)
 
         val result = mutableListOf<MarketerPriceResponse>()
         chunkedTypeIds.forEach {
-            result.addAll(marketerApi
-                .getPricesAsync(it, settings.systemId)
-                .await()
-            )
+            result.addAll(marketerApi.getPricesAsync(it, settings.systemId))
         }
         return result.map { toDomain(it, settings) }
     }

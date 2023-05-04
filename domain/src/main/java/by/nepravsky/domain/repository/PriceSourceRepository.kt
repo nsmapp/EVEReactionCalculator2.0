@@ -4,6 +4,5 @@ import by.nepravsky.domain.entity.base.PriceSource
 
 interface PriceSourceRepository {
 
-
-    suspend fun getAll(): List<PriceSource>
+    fun getAll(): List<PriceSource>
 }

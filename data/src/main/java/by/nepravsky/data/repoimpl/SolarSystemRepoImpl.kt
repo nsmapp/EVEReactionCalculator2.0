@@ -9,7 +9,7 @@ class SolarSystemRepoImpl(
     private val appDatabase: AppDatabase
 ): SolarSystemsRepository {
 
-    override suspend fun getAll(): List<SolarSystem> =
+    override fun getAll(): List<SolarSystem> =
         appDatabase.systemsDao().getAll()
             .map { toDomain(it) }
 

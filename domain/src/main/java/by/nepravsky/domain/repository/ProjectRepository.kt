@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProjectRepository {
 
-    suspend fun getAll(): Flow<List<Project>>
+    fun getAll(): Flow<List<Project>>
 
-    suspend fun get(projectRequest: ProjectRequest): Project
+    fun get(projectRequest: ProjectRequest): Project
 
-    suspend fun create(project: Project): Long
+    fun create(project: Project): Long
 
-    suspend fun deleteById(projectRequest: ProjectRequest): Int
+    fun deleteById(projectRequest: ProjectRequest): Int
 }

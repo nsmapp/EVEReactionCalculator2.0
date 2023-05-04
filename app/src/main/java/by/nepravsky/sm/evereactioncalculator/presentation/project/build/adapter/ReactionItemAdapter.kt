@@ -48,8 +48,8 @@ class ReactionItemAdapter: RecyclerView.Adapter<ReactionItemAdapter.ItemHolder>(
             tvName.text = "${item.quantity} x ${item.name}"
 //            tvQuantity.text = "Quantity: ${item.quantity.toPC()}"
             tvVolume.text = "Volume: ${item.volume.toVolume()}"
-            tvSell.text = "Sell: ${item.sell.toISK()}"
-            tvBuy.text = "Buy: ${item.buy.toISK()}"
+            tvSell.text = "Sell: ${item.sell.toShortISK()}"
+            tvBuy.text = "Buy: ${item.buy.toShortISK()}"
             tvTypeItem.text = if (isMaterials) ctx.getString(R.string.material)
                 else ctx.getString(R.string.product)
 

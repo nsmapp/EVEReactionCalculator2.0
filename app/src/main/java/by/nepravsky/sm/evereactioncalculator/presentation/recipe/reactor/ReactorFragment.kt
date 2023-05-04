@@ -64,7 +64,7 @@ class ReactorFragment : Fragment(), ProjectClickContract {
 
     override fun onRunProject(projectId: Int) {
         val action = ReactorFragmentDirections.actionReactorFragmentToBuildReaction()
-            .setProjectTypeId(ProjectType.REACTION_PROJECT.id)
+            .setProjectTypeId(ProjectType.Project.id)
             .setReactionId(projectId)
         findNavController().navigate(action)
     }

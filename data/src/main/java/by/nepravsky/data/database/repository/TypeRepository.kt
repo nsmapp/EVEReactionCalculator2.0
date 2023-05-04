@@ -9,7 +9,7 @@ interface TypeRepository {
 
     suspend fun getAllIds():List<Int>
 
-    suspend fun get(itemRequest: ItemRequest, settings: Settings): Item
+    fun get(itemRequest: ItemRequest, settings: Settings): Item
 
 
 }

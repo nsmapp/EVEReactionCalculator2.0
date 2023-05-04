@@ -12,20 +12,20 @@ class ReactionRepoImpl(
     private val reactionDAORepository: ReactionDAORepository
 ):ReactionRepository {
 
-    override suspend fun getAll(settings: Settings): List<ReactionFormula> =
+    override fun getAll(settings: Settings): List<ReactionFormula> =
         reactionDAORepository.getAll(settings)
 
-    override suspend fun getByName(
+    override fun getByName(
         searchReactionRequest: SearchReactionRequest,
         settings: Settings
     ): List<ReactionFormula> = reactionDAORepository.getByName(searchReactionRequest, settings)
 
-    override suspend fun get(
+    override fun get(
         reactionRequest: ReactionRequest,
         settings: Settings
     ): ReactionFormula =  reactionDAORepository.getByIds(reactionRequest, settings)
 
-    override suspend fun hasReactionFormula(
+    override fun hasReactionFormula(
         items: List<ItemRequest>,
         settings: Settings
     ): List<ReactionFormula> = reactionDAORepository.hasReactionFormula(items, settings)

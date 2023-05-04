@@ -6,6 +6,6 @@ import by.nepravsky.domain.entity.request.Settings
 
 interface PriceDAORepository {
 
-    suspend fun save(orderPrices: List<OrderPrice>): List<Long>
-    suspend fun needUpdate(request: PriceListRequest, settings: Settings): List<Int>
+    fun save(orderPrices: List<OrderPrice>): List<Long>
+    fun needUpdate(request: PriceListRequest, settings: Settings): List<Int>
 }

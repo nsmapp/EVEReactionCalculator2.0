@@ -14,7 +14,7 @@ fun CharSequence?.parseToInt(default: Int): Int {
     }
 }
 
-fun Double.toISK(): String {
+fun Double.toShortISK(): String {
     var i = this
     var k = ""
     while(i > 1000){
@@ -23,6 +23,8 @@ fun Double.toISK(): String {
     }
     return "${DecimalFormat("###,##0.00#").format(i)} $k ISK"
 }
+
+fun Double.toISK(): String  = "${DecimalFormat("###,##0.00#").format(this)} ISK"
 
 fun Double.toVolume(): String = "${DecimalFormat("###,##0.0#").format(this)} m³"
 

@@ -8,12 +8,12 @@ import by.nepravsky.domain.entity.request.Settings
 
 interface PriceRepository {
 
-    suspend fun get(request: PriceRequest, settings: Settings): OrderPrice
+    fun get(request: PriceRequest, settings: Settings): OrderPrice
 
-    suspend fun get(request: PriceListRequest, settings: Settings): List<OrderPrice>
+    fun get(request: PriceListRequest, settings: Settings): List<OrderPrice>
 
-    suspend fun save(orderPrices: List<OrderPrice>): List<Long>
+    fun save(orderPrices: List<OrderPrice>): List<Long>
 
-    suspend fun getItemIdsForUpdate(request: PriceListRequest, settings: Settings): List<Int>
+    fun getItemIdsForUpdate(request: PriceListRequest, settings: Settings): List<Int>
 
 }

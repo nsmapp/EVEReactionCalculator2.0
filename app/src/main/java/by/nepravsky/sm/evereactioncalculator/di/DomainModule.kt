@@ -1,7 +1,7 @@
 package by.nepravsky.sm.evereactioncalculator.di
 
 import BaseReactionUseCase
-import FullReactionUseCase
+import by.nepravsky.domain.usecase.FullReactionUseCase
 import by.nepravsky.domain.usecase.*
 import by.nepravsky.domain.usecase.productline.*
 import org.koin.dsl.module

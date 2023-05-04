@@ -7,6 +7,6 @@ import by.nepravsky.domain.repository.ItemGroupRepository
 
 class ItemGroupRepoImpl(private val groupDAORepository: GroupDAORepository): ItemGroupRepository {
 
-    override suspend fun getAll(settings: Settings): List<ItemGroup> =
+    override fun getAll(settings: Settings): List<ItemGroup> =
         groupDAORepository.getAll(settings)
 }

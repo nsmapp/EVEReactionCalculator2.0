@@ -6,6 +6,8 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.transition.Explode
+import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 
@@ -14,7 +16,7 @@ val handler = Handler(Looper.getMainLooper())
 
 fun slideToTop(view: View, rootView: ViewGroup){
 
-    val transition = Slide(Gravity.TOP)
+    val transition = Explode()
     transition.duration = 250
     transition.addTarget(view)
     TransitionManager.beginDelayedTransition(rootView, transition)

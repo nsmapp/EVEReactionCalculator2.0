@@ -11,8 +11,8 @@ class EveTechRepoImpl(
     private val eveTechApi: EveTechApi
 ): EveTechRepository {
 
-    override suspend fun request(priceRequest: PriceRequest, settings: Settings): OrderPrice {
-        val prices = eveTechApi.getPricesAsync(settings.regionId, priceRequest.itemId).await()
+    override fun request(priceRequest: PriceRequest, settings: Settings): OrderPrice {
+        val prices = eveTechApi.getPricesAsync(settings.regionId, priceRequest.itemId)
         val sell = prices.filter { !it.isBuyOrder }.minOf { it.price }
         val buy = prices.filter { it.isBuyOrder }.maxOf { it.price }
         return OrderPrice(

@@ -16,6 +16,7 @@ import by.nepravsky.domain.utils.getItemImageURL
 import by.nepravsky.sm.evereactioncalculator.utils.listnersinterface.ItemSelectedListener
 import by.nepravsky.sm.evereactioncalculator.presentation.recipe.createitem.adapters.ItemGroupsAdapter
 import by.nepravsky.sm.evereactioncalculator.presentation.recipe.createitem.adapters.ReactionListAdapter
+import by.nepravsky.sm.evereactioncalculator.utils.TEXT_EMPTY
 import by.nepravsky.sm.evereactioncalculator.utils.UISettings
 import by.nepravsky.sm.evereactioncalculator.utils.events.Event
 import by.nepravsky.sm.evereactioncalculator.utils.events.EventFinish
@@ -25,6 +26,7 @@ import by.nepravsky.sm.evereactioncalculator.utils.listnersinterface.ItemClickLi
 import by.nepravsky.sm.evereactioncalculator.utils.showSnackBarSort
 import by.nepravsky.sm.evereactioncalculator.utils.views.slideToBottom
 import coil.clear
+import coil.dispose
 import coil.load
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -130,8 +132,8 @@ class ItemCreateFragment : Fragment(), ItemClickListener<ReactionFormula>,
                 etRuns.setSelection(etRuns.length())
                 ivReactionIcon.load(getItemImageURL(item.reactionId))
             } else {
-                binding.tvReactionName.text = ""
-                binding.ivReactionIcon.clear()
+                binding.tvReactionName.text = TEXT_EMPTY
+                binding.ivReactionIcon.dispose()
 
             }
         }

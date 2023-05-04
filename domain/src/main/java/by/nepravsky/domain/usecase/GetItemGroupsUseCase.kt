@@ -1,21 +1,15 @@
 package by.nepravsky.domain.usecase
 
+import by.nepravsky.domain.entity.Answer
 import by.nepravsky.domain.entity.domain.ItemGroup
 import by.nepravsky.domain.entity.request.Settings
 import by.nepravsky.domain.repository.ItemGroupRepository
-import by.nepravsky.domain.utils.Result
-import by.nepravsky.domain.utils.runFun
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.withContext
+import by.nepravsky.domain.utils.runFunc
 
-class GetItemGroupsUseCase(private val itemGroupRepo: ItemGroupRepository){
+class GetItemGroupsUseCase(private val itemGroupRepo: ItemGroupRepository) {
 
 
-    suspend fun get(settings: Settings):Result<List<ItemGroup>> =
-        runFun { getAll(settings) }
+    suspend fun get(settings: Settings): Answer<List<ItemGroup>> =
+        runFunc { itemGroupRepo.getAll(settings) }
 
-    private suspend fun getAll(settings: Settings): List<ItemGroup> =
-        withContext(IO){
-            itemGroupRepo.getAll(settings)
-        }
 }

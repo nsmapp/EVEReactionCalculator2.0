@@ -13,7 +13,7 @@ class TypeRepoImpl(
     override suspend fun getAllIds(): List<Int> =
         appDatabase.typeDao().getIds()
 
-    override suspend fun get(itemRequest: ItemRequest, settings: Settings): Item =
+    override fun get(itemRequest: ItemRequest, settings: Settings): Item =
         toDomain(
             appDatabase.typeDao().get(itemRequest.itemId, settings.systemId),
             settings

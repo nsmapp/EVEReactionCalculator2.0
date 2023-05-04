@@ -6,13 +6,15 @@ import by.nepravsky.domain.entity.base.PriceSource
 import by.nepravsky.domain.entity.base.SolarSystem
 import by.nepravsky.domain.entity.presenter.SearchLanguage
 import by.nepravsky.domain.entity.request.Settings
-import by.nepravsky.domain.usecase.*
-import by.nepravsky.domain.utils.Result
+import by.nepravsky.domain.usecase.GetPriceSourceUseCase
+import by.nepravsky.domain.usecase.GetSearchLanguageUseCase
+import by.nepravsky.domain.usecase.GetSettingsUseCase
+import by.nepravsky.domain.usecase.GetSolarSystemsUseCase
+import by.nepravsky.domain.usecase.SaveSettingsUseCase
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -37,70 +39,52 @@ class SettingsViewModel(
     val priceSources = _priceSource.asStateFlow()
 
 
-    fun getSettings(){
+    fun getSettings() {
         viewModelScope.launch {
-            withContext(Main){
-                val settings = getSettingsUseCase.get()
-                when(settings){
-                    is Result.Success ->{
-                        settings.data.catch { Settings() }.collect { _settings.value = it }
-                    }
-                    is Result.Error -> {}
-                }
-            }
+            getSettingsUseCase.get().collect(
+                Success = { flow -> flow.catch { Settings() }.collect { _settings.value = it } },
+                Error = {}
+            )
         }
     }
 
-    fun getLanguage(){
+    fun getLanguage() {
         viewModelScope.launch {
-            withContext(Main){
-                val lanList = getAllLanguageUseCase.getAll()
-                when(lanList){
-                    is Result.Success -> {
-                        _language.value = lanList.data
-                    }
-                    is Result.Error -> {}
-                }
-            }
+            getAllLanguageUseCase.getAll().collect(
+                Success = { _language.value = it },
+                Error = {}
+            )
         }
     }
 
 
-    fun getSolarSystems(){
+    fun getSolarSystems() {
         viewModelScope.launch {
-            withContext(Main){
-                val request = getSolarSystemsUseCase.getAll()
-                when(request){
-                    is Result.Success -> {
-                        _solarSystem.value = request.data
-                    }
-                    is Result.Error -> {}
-                }
+            getSolarSystemsUseCase.getAll().collect(
+                Success = { _solarSystem.value = it },
+                Error = {}
+            )
+        }
+    }
+
+    fun getPriceSources() {
+        viewModelScope.launch {
+            withContext(Main) {
+                getPriceSourceUseCase.getAll().collect(
+                    Success = { _priceSource.value = it },
+                    Error = {}
+                )
             }
         }
     }
 
-    fun getPriceSources(){
-        viewModelScope.launch {
-            withContext(Main){
-                val request = getPriceSourceUseCase.getAll()
-                when(request){
-                    is Result.Success -> {
-                        _priceSource.value = request.data
-                    }
-                    is Result.Error -> {}
-                }
-            }
-        }
-    }
-
-    fun changeSearchLanguage(searchLanguage: SearchLanguage){
+    fun changeSearchLanguage(searchLanguage: SearchLanguage) {
         _settings.value?.let {
             saveSettings(it.apply { languageId = searchLanguage.id })
         }
     }
 
-    fun changePriceSource(priceSource: PriceSource){
+    fun changePriceSource(priceSource: PriceSource) {
         _settings.value?.let {
             saveSettings(it.apply { priceUpdateSource = priceSource.id })
         }
@@ -115,11 +99,12 @@ class SettingsViewModel(
         }
     }
 
-    private fun saveSettings(settings: Settings){
+    private fun saveSettings(settings: Settings) {
         viewModelScope.launch {
-            withContext(Main){
-                val request = saveSettingsUseCase.save(settings)
-            }
+            saveSettingsUseCase.save(settings).collect(
+                Success = {},
+                Error = {}
+            )
         }
     }
 }

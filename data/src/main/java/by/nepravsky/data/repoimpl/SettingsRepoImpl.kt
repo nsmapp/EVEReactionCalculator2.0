@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 class SettingsRepoImpl(
     private val  setupDAORepository: SetupDAORepository
 ):SettingsRepository {
-    override suspend fun getSettings(): Flow<Settings> = setupDAORepository.getSetup()
+    override fun getSettings(): Flow<Settings> = setupDAORepository.getSetup()
 
-    override suspend fun save(settings: Settings): Long = setupDAORepository.save(settings)
+    override fun save(settings: Settings): Long = setupDAORepository.save(settings)
 
 }

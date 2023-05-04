@@ -15,28 +15,28 @@ class ReactionProjectItemDaoRepoImpl(
 ) : ReactionProjectItemDaoRepository {
 
 
-    override suspend fun getByParentIdFlow(
+    override fun getByParentIdFlow(
         projectRequest: ProjectRequest,
         settings: Settings
     ): Flow<List<ProjectItem>> = appDatabase.reactionProjectItemDao()
         .getByParentIdFlow(projectRequest.projectId)
         .map { it.map { t -> toDomain(t, settings) } }
 
-    override suspend fun getByParentId(
+    override fun getByParentId(
         projectRequest: ProjectRequest,
         settings: Settings
     ): List<ProjectItem> = appDatabase.reactionProjectItemDao()
         .getByParentId(projectRequest.projectId)
         .map { toDomain(it, settings) }
 
-    override suspend fun deleteByParentId(projectRequest: ProjectRequest): Int =
+    override fun deleteByParentId(projectRequest: ProjectRequest): Int =
         appDatabase.reactionProjectItemDao().deleteByProjectId(projectRequest.projectId)
 
-    override suspend fun deleteById(projectItemRequest: ProjectItemRequest): Int =
+    override fun deleteById(projectItemRequest: ProjectItemRequest): Int =
         appDatabase.reactionProjectItemDao()
             .deleteById(projectItemRequest.itemId, projectItemRequest.projectId)
 
-    override suspend fun save(projectItem: ProjectItem): Long =
+    override fun save(projectItem: ProjectItem): Long =
         appDatabase.reactionProjectItemDao().insert(toData(projectItem))
 
     private fun toData(item: ProjectItem): ProjectReactionItem =

@@ -11,14 +11,19 @@ import by.nepravsky.domain.usecase.GetItemGroupsUseCase
 import by.nepravsky.domain.usecase.GetSettingsUseCase
 import by.nepravsky.domain.usecase.SearchReactionUseCase
 import by.nepravsky.domain.usecase.productline.SaveProjectItemUseCase
-import by.nepravsky.domain.utils.Result
 import by.nepravsky.domain.utils.excepts.BrokenDateException
 import by.nepravsky.domain.utils.parseToInt
 import by.nepravsky.sm.evereactioncalculator.utils.events.Event
 import by.nepravsky.sm.evereactioncalculator.utils.events.EventFinish
 import by.nepravsky.sm.evereactioncalculator.utils.events.EventShowSnackBar
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -47,70 +52,48 @@ class ItemCreateViewModel(
 
     fun getSettings() {
         viewModelScope.launch {
-            withContext(Dispatchers.Main) {
-                when (val setup = getSettingsUseCase.get()) {
-                    is Result.Success -> {
-                        setup.data
-                            .catch { Settings() }
-                            .collect { _settings.value = it }
-                    }
-                    is Result.Error -> {
-                    }
-                }
-            }
+            getSettingsUseCase.get().collect(Success = { flow ->
+                flow.catch { Settings() }.collect { _settings.value = it }
+            },
+                Error = {})
         }
     }
 
     fun searchReaction(name: String) {
         showProgress()
         viewModelScope.launch {
-            withContext(Dispatchers.Main) {
-                val reactions = searchReactionUseCase.get(
-                    SearchReactionRequest(name, selectedGroups), settings.value
-                )
-                when (reactions) {
-                    is Result.Success ->{
-                        _reactions.value = reactions.data
+            searchReactionUseCase.get(SearchReactionRequest(name, selectedGroups), settings.value)
+                .collect(
+                    Success = {
+                        _reactions.value = it
                         stopProgress()
-                    }
-                    is Result.Error -> {
-                        stopProgress()
-                    }
-                }
-            }
+                    },
+                    Error = { stopProgress() })
         }
     }
 
     fun saveProjectItem() {
 
         viewModelScope.launch {
-            withContext(Dispatchers.Main) {
-                    val request = saveProjectItemUseCase.save(_projectItem.value)
-                    when (request) {
-                        is Result.Success -> {
-                            _eventList.emit(EventShowSnackBar("Saved"))
-                            _eventList.emit(EventFinish())
-                        }
-                        is Result.Error -> {
-                            if (request.exception is BrokenDateException)
-                                _eventList.emit(EventShowSnackBar("Reaction don't selected"))
-                        }
-                    }
-            }
+            saveProjectItemUseCase.save(_projectItem.value).collect(
+                Success = {
+                    _eventList.emit(EventShowSnackBar("Saved"))
+                    _eventList.emit(EventFinish())
+                },
+                Error = {
+                    if (it is BrokenDateException) _eventList.emit(EventShowSnackBar("Reaction don't selected"))
+                }
+            )
         }
     }
 
     fun getGroups(settings: Settings) {
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
-                val groups = getAllGroupsUseCase.get(settings)
-                when (groups) {
-                    is Result.Success -> {
-                        _groups.value = groups.data
-                    }
-                    is Result.Error -> {
-                    }
-                }
+                getAllGroupsUseCase.get(settings).collect(
+                    Success = { _groups.value = it },
+                    Error = {}
+                )
             }
         }
 
@@ -156,11 +139,11 @@ class ItemCreateViewModel(
         }
     }
 
-    fun stopProgress(){
+    fun stopProgress() {
         _progress.value = false
     }
 
-    fun showProgress(){
+    fun showProgress() {
         _progress.value = true
     }
 

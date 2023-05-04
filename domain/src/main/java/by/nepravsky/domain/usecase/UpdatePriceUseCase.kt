@@ -1,5 +1,6 @@
 package by.nepravsky.domain.usecase
 
+import by.nepravsky.domain.entity.Answer
 import by.nepravsky.domain.entity.base.OrderPrice
 import by.nepravsky.domain.entity.domain.PriceSource
 import by.nepravsky.domain.entity.request.*
@@ -7,6 +8,7 @@ import by.nepravsky.domain.repository.PriceRepository
 import by.nepravsky.domain.repository.ReactionRepository
 import by.nepravsky.domain.utils.Result
 import by.nepravsky.domain.utils.runFun
+import by.nepravsky.domain.utils.runFunc
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 
@@ -27,12 +29,12 @@ class UpdatePriceUseCase(
     suspend fun updatePrice(
         requests: ItemRequest,
         settings: Settings
-    ): Result<Unit> =
+    ): Answer<Unit> =
         withContext(IO) {
-            runFun { update(listOf(requests), settings) }
+            runFunc { update(listOf(requests), settings) }
         }
 
-    private suspend fun update(
+    private fun update(
         requests: List<ItemRequest>,
         settings: Settings
     ) {
@@ -67,7 +69,7 @@ class UpdatePriceUseCase(
         priceRepository.save(orders)
     }
 
-    private suspend fun requestPrices(
+    private fun requestPrices(
         itemIds: List<Int>,
         settings: Settings
     ): List<OrderPrice> =

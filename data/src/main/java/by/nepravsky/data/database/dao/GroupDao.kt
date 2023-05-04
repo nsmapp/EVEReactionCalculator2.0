@@ -12,5 +12,4 @@ interface GroupDao {
 
     @Query("SELECT * FROM ${Group.TABLE_NAME} ORDER BY ${Group.ID} DESC")
     fun getAll(): List<Group>
-
 }

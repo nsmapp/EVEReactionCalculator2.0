@@ -12,12 +12,12 @@ class PriceDAORepoImpl(
 ) : PriceDAORepository {
 
 
-    override suspend fun save(orderPrices: List<OrderPrice>): List<Long> {
+    override fun save(orderPrices: List<OrderPrice>): List<Long> {
         val prices = orderPrices.map { toData(it) }
         return appDatabase.priceDao().insert(prices)
     }
 
-    override suspend fun needUpdate(request: PriceListRequest, settings: Settings): List<Int> =
+    override fun needUpdate(request: PriceListRequest, settings: Settings): List<Int> =
         appDatabase.priceDao()
             .get(request.itemIds, Date().time - request.updatePeriod, settings.systemId)
 

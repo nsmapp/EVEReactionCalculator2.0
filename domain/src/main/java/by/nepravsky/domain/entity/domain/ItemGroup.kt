@@ -6,4 +6,5 @@ data class ItemGroup(
     val isFormula: Boolean,
     val category: Int,
     val name: String,
+    val iconId: Int
 )

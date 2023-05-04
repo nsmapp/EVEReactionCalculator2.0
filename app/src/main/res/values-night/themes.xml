@@ -18,6 +18,7 @@
         <item name="colorOnBackground">@color/base_background</item>
         <item name="cardBackgroundColor">@color/base_view_background</item>
 
+        <item name="android:itemBackground">@drawable/border_popup</item>
         <item name="colorControlNormal">@color/secondary</item>
     </style>
 

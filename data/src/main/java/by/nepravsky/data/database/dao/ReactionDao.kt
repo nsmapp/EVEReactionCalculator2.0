@@ -30,6 +30,9 @@ interface ReactionDao {
             "ORDER BY ${Reaction.GROUP_ID}")
     fun getByGroup(groupIds: List<Int>): List<ReactionWithMEType>
 
+    @Query("SELECT * FROM ${Reaction.TABLE_NAME} WHERE ${Reaction.TABLE_NAME}.${Reaction.GROUP_ID} == :groupId")
+    fun getByGroup(groupId: Int): Reaction
+
     @Query("SELECT " +
                 "${Reaction.TABLE_NAME}.*, " +
                 "${Group.IS_FORMULA}, " +

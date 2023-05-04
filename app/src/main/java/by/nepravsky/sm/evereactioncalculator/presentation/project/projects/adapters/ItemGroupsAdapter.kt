@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import by.nepravsky.sm.evereactioncalculator.databinding.ItemGroupBinding
 import by.nepravsky.domain.entity.domain.ItemGroup
 import by.nepravsky.domain.entity.presenter.ItemGroupSelected
+import by.nepravsky.domain.utils.getItemImageURL
 import by.nepravsky.sm.evereactioncalculator.utils.listnersinterface.ItemSelectedListener
+import coil.load
 
 class ItemGroupsAdapter(
     private val itemSelectedListener: ItemSelectedListener<List<ItemGroup>>
@@ -34,14 +36,21 @@ class ItemGroupsAdapter(
 
     override fun onBindViewHolder(holder: ItemGroupHolder, position: Int) {
         val item = items[position]
-        holder.binding.apply {
+
+        with(holder.binding) {
             cbIsSelected.setOnCheckedChangeListener(null)
             tvGroupName.text = item.itemGroup.name
             cbIsSelected.isChecked = item.isSelected
-        }
-        holder.binding.cbIsSelected.setOnCheckedChangeListener { _, b ->
-            items[position].isSelected = b
-            sendSelected()
+            ivGroup.load(getItemImageURL(item.itemGroup.iconId))
+
+            cbIsSelected.setOnCheckedChangeListener { _, b ->
+                items[position].isSelected = b
+                sendSelected()
+            }
+
+            root.setOnClickListener {
+                holder.binding.cbIsSelected.isChecked = !holder.binding.cbIsSelected.isChecked
+            }
         }
     }
 

@@ -11,7 +11,7 @@ interface MarketerApi {
     fun getPricesAsync(
             @Query("typeid") typeIds: List<Int>,
             @Query("usesystem") solarSystemId: Int
-    ): Deferred<List<MarketerPriceResponse>>
+    ): List<MarketerPriceResponse>
 
 
 

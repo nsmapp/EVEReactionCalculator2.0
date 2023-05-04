@@ -1,4 +1,6 @@
-import by.nepravsky.domain.MyClass
+package by.nepravsky.domain.usecase
+
+import by.nepravsky.domain.entity.Answer
 import by.nepravsky.domain.entity.base.ReactionFormula
 import by.nepravsky.domain.entity.base.ReactionFormulaElement
 import by.nepravsky.domain.entity.base.ReactionItem
@@ -11,9 +13,7 @@ import by.nepravsky.domain.repository.ItemRepository
 import by.nepravsky.domain.repository.ReactionRepository
 import by.nepravsky.domain.utils.Result
 import by.nepravsky.domain.utils.runFun
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.withContext
-import java.util.logging.Level
+import by.nepravsky.domain.utils.runFunc
 import kotlin.math.ceil
 
 
@@ -25,20 +25,14 @@ class FullReactionUseCase(
     suspend fun run(
         reactionRequests: List<ReactionRequest>,
         settings: Settings
-    ): Result<ReactionInfo> =
-        withContext(IO) {
-            runFun { makeReaction(reactionRequests, settings) }
-        }
+    ): Answer<ReactionInfo> = runFunc { makeReaction(reactionRequests, settings) }
 
     suspend fun run(
         reactionRequest: ReactionRequest,
         settings: Settings
-    ): Result<ReactionInfo> =
-        withContext(IO) {
-            runFun { makeReaction(listOf(reactionRequest), settings) }
-        }
+    ): Answer<ReactionInfo> = runFunc { makeReaction(listOf(reactionRequest), settings) }
 
-    private suspend fun makeReaction(
+    private fun makeReaction(
         requests: List<ReactionRequest>,
         settings: Settings
     ): ReactionInfo {
@@ -98,7 +92,7 @@ class FullReactionUseCase(
 
     }
 
-    private suspend fun makeSubReaction(
+    private fun makeSubReaction(
         materials: List<ReactionItem>,
         settings: Settings
     ): SubProduct {
@@ -126,7 +120,7 @@ class FullReactionUseCase(
         return makeSubProduct(subMaterials, settings)
     }
 
-    private suspend fun makeSubProduct(
+    private fun makeSubProduct(
         items: List<ReactionItem>,
         settings: Settings
     ): SubProduct {
@@ -201,7 +195,7 @@ class FullReactionUseCase(
         )
     }
 
-    private suspend fun requestReactionItem(
+    private fun requestReactionItem(
         element: ReactionFormulaElement,
         settings: Settings
     ): ReactionItem =

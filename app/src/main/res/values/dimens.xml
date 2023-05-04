@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_zero">0dp</dimen>
+    <dimen name="size_micro">1dp</dimen>
+    <dimen name="size_mini">2dp</dimen>
+    <dimen name="size_small">4dp</dimen>
+    <dimen name="size_default">8dp</dimen>
+    <dimen name="size_normal">16dp</dimen>
+    <dimen name="size_medium">24dp</dimen>
+    <dimen name="size_big">32dp</dimen>
+    <dimen name="size_large">36dp</dimen>
+    <dimen name="size_huge">48dp</dimen>
+    <dimen name="size_extra_huge">48dp</dimen>
+
+
+
+    <dimen name="elevation_zero">0dp</dimen>
+    <dimen name="elevation_micro">2dp</dimen>
+    <dimen name="elevation_mini">4dp</dimen>
+    <dimen name="elevation_small">6dp</dimen>
+    <dimen name="elevation_default">8dp</dimen>
+
+
+    <dimen name="radius_zero">0dp</dimen>
+    <dimen name="radius_small">4dp</dimen>
+    <dimen name="radius_default">8dp</dimen>
+</resources>

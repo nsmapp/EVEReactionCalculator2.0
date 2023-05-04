@@ -1,27 +1,30 @@
 package by.nepravsky.sm.evereactioncalculator.presentation.project.projects
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import by.nepravsky.sm.evereactioncalculator.databinding.ProjectsFragmentBinding
 import by.nepravsky.domain.entity.base.ReactionFormula
 import by.nepravsky.domain.entity.domain.ItemGroup
 import by.nepravsky.domain.entity.presenter.ProjectType
+import by.nepravsky.sm.evereactioncalculator.databinding.ProjectsFragmentBinding
 import by.nepravsky.sm.evereactioncalculator.presentation.project.projects.adapters.ItemGroupsAdapter
 import by.nepravsky.sm.evereactioncalculator.presentation.project.projects.adapters.ReactionAdapter
+import by.nepravsky.sm.evereactioncalculator.presentation.project.projects.model.ProjectsState
+import by.nepravsky.sm.evereactioncalculator.utils.TEXT_EMPTY
 import by.nepravsky.sm.evereactioncalculator.utils.UISettings
 import by.nepravsky.sm.evereactioncalculator.utils.listnersinterface.ItemClickListener
 import by.nepravsky.sm.evereactioncalculator.utils.listnersinterface.ItemSelectedListener
 import by.nepravsky.sm.evereactioncalculator.utils.views.slideToBottom
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import by.nepravsky.sm.evereactioncalculator.utils.views.slideToTop
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class ProjectsFragment : Fragment(), ItemClickListener<ReactionFormula>,
@@ -46,10 +49,9 @@ class ProjectsFragment : Fragment(), ItemClickListener<ReactionFormula>,
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getSettings()
-
         initInterface()
         initFlows()
-        initListner()
+        initListener()
     }
 
     private fun initInterface() {
@@ -59,37 +61,22 @@ class ProjectsFragment : Fragment(), ItemClickListener<ReactionFormula>,
     }
 
     private fun initFlows() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.settings
-                .onEach {
-                    if (viewModel.group.value.isEmpty()) viewModel.getGroups(it)
-                }
-                .launchIn(lifecycleScope)
 
-            viewModel.reactions
-                .onEach { reactionRAdapter.setItems(it) }
-                .launchIn(lifecycleScope)
-
-            viewModel.group
-                .onEach { if (itemGroupAdapter.itemCount == 0) itemGroupAdapter.setItems(it) }
-                .launchIn(lifecycleScope)
-
-            viewModel.progress
-                .onEach { binding.pbProgress.visibility = if (it) View.VISIBLE else View.GONE }
-                .launchIn(lifecycleScope)
+        lifecycleScope.launch {
+            viewModel.state.collectLatest { state -> renderUI(state) }
         }
     }
 
-    private fun initListner() {
+    private fun initListener() {
         binding.etReactionSearch.doOnTextChanged { text, _, _, _ ->
             if (text != null) {
-                if (text.toString().isEmpty()) viewModel.searchReaction("")
+                if (text.toString().isEmpty()) viewModel.searchReaction(TEXT_EMPTY)
                 else viewModel.searchReaction(text.toString())
-            } else viewModel.searchReaction("")
+            } else viewModel.searchReaction(TEXT_EMPTY)
         }
 
         binding.ivSettings.setOnClickListener {
-            slideToBottom(binding.rvItemGroups, binding.root)
+            slideToTop(binding.rvItemGroups, binding.root)
         }
 
         requireActivity().onBackPressedDispatcher
@@ -108,6 +95,31 @@ class ProjectsFragment : Fragment(), ItemClickListener<ReactionFormula>,
             })
     }
 
+    private fun renderUI(state: ProjectsState) {
+        when (state) {
+            is ProjectsState.ShowProgress -> showProgress(state.isLoading)
+            is ProjectsState.UpdateFormulas -> showFormulas(state)
+            is ProjectsState.UpdateGroup -> showGroups(state)
+            is ProjectsState.Nothing -> doNothing()
+        }
+    }
+
+    private fun showProgress(loading: Boolean) {
+        binding.pbProgress.visibility = if (loading) View.VISIBLE else View.GONE
+    }
+
+    private fun doNothing() {
+        viewModel.stopProgress()
+    }
+
+    private fun showGroups(state: ProjectsState.UpdateGroup) {
+        itemGroupAdapter.setItems(state.data)
+    }
+
+    private fun showFormulas(state: ProjectsState.UpdateFormulas) {
+        reactionRAdapter.setItems(state.data)
+    }
+
     override fun selectedItems(selectedItems: List<ItemGroup>) {
         viewModel.setSelectedItemGroups(selectedItems)
         viewModel.searchReaction(binding.etReactionSearch.text.toString())
@@ -116,7 +128,7 @@ class ProjectsFragment : Fragment(), ItemClickListener<ReactionFormula>,
     override fun onItemClick(item: ReactionFormula) {
         val action = ProjectsFragmentDirections.toBuildReaction()
             .setReactionId(item.id)
-            .setProjectTypeId(ProjectType.REACTION_SINGLE.id)
+            .setProjectTypeId(ProjectType.Single.id)
         findNavController().navigate(action)
     }
 

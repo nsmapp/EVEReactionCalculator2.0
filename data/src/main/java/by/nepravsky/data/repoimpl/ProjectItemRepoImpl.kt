@@ -10,27 +10,27 @@ import kotlinx.coroutines.flow.Flow
 
 class ProjectItemRepoImpl(
     private val reactionProjectItemDaoRepository: ReactionProjectItemDaoRepository
-): ProjectItemRepository {
+) : ProjectItemRepository {
 
-    override suspend fun getByParentIdFlow(
+    override fun getByParentIdFlow(
         projectRequest: ProjectRequest,
         settings: Settings
     ): Flow<List<ProjectItem>> = reactionProjectItemDaoRepository
         .getByParentIdFlow(projectRequest, settings)
 
-    override suspend fun getByParentId(
+    override fun getByParentId(
         projectRequest: ProjectRequest,
         settings: Settings
     ): List<ProjectItem> = reactionProjectItemDaoRepository
         .getByParentId(projectRequest, settings)
 
-    override suspend fun deleteByParentId(projectRequest: ProjectRequest): Int =
+    override fun deleteByParentId(projectRequest: ProjectRequest): Int =
         reactionProjectItemDaoRepository.deleteByParentId(projectRequest)
 
-    override suspend fun deleteById(projectItemRequest: ProjectItemRequest): Int =
+    override fun deleteById(projectItemRequest: ProjectItemRequest): Int =
         reactionProjectItemDaoRepository.deleteById(projectItemRequest)
 
-    override suspend fun save(projectItem: ProjectItem): Long =
+    override fun save(projectItem: ProjectItem): Long =
         reactionProjectItemDaoRepository.save(projectItem)
 
 }

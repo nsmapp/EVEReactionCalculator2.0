@@ -5,8 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface SetupDAORepository {
 
-    suspend fun getSetup():Flow<Settings>
+    fun getSetup():Flow<Settings>
 
-    suspend fun save(settings: Settings): Long
+    fun save(settings: Settings): Long
 
 }

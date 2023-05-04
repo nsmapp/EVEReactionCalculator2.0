@@ -6,7 +6,7 @@ import by.nepravsky.domain.entity.presenter.SearchLanguage
 
 class LanguageDAORepoImpl(private val appDatabase: AppDatabase): LanguageDAORepository {
 
-    override suspend fun getAll(): List<SearchLanguage> =
+    override fun getAll(): List<SearchLanguage> =
         appDatabase.languageDao().getAll()
             .map { toDomain(it) }
 

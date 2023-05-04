@@ -12,7 +12,7 @@ class ItemRepoImpl(private val typeRepository: TypeRepository): ItemRepository {
     override suspend fun getAllItemIds(): List<Int> =
         typeRepository.getAllIds()
 
-    override suspend fun get(itemRequest: ItemRequest, settings: Settings): Item =
+    override fun get(itemRequest: ItemRequest, settings: Settings): Item =
         typeRepository.get(itemRequest, settings)
 
 

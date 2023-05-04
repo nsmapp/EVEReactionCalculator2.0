@@ -2,6 +2,7 @@ package by.nepravsky.sm.evereactioncalculator.di
 
 import by.nepravsky.sm.evereactioncalculator.presentation.recipe.createitem.ItemCreateViewModel
 import by.nepravsky.sm.evereactioncalculator.presentation.project.build.BuildReactionViewModel
+import by.nepravsky.sm.evereactioncalculator.presentation.project.build.mapper.ShareReactionMapper
 import by.nepravsky.sm.evereactioncalculator.presentation.recipe.productline.ProductLineViewModel
 import by.nepravsky.sm.evereactioncalculator.presentation.project.projects.ProjectsViewModel
 import by.nepravsky.sm.evereactioncalculator.presentation.recipe.reactor.ReactorViewModel
@@ -27,7 +28,8 @@ val presentationModule = module {
             baseReactionUseCase = get(),
             fullReactionUseCase = get(),
             updatePriceUseCase = get(),
-            getProjectsItemsUseCase = get()
+            getProjectsItemsUseCase = get(),
+            shareReactionMapper = get()
         )
     }
 
@@ -67,5 +69,7 @@ val presentationModule = module {
             saveProjectItemUseCase = get()
         )
     }
+
+    single<ShareReactionMapper> { ShareReactionMapper(context = get()) }
 }
 

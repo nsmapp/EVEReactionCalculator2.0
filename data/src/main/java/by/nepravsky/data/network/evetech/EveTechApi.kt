@@ -14,7 +14,7 @@ interface EveTechApi {
         @Query("type_id") typeId: Int,
         @Query("datasource") datasource: String = "tranquility",
         @Query("order_type") orderType: String = "all",
-    ): Deferred<List<EveTechPriceResponse>>
+    ): List<EveTechPriceResponse>
 
 
 

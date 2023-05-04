@@ -8,15 +8,15 @@ import kotlinx.coroutines.flow.Flow
 
 class ProjectRepoImpl(private val projectDAORepository: ReactionProjectDAORepository): ProjectRepository {
 
-    override suspend fun getAll(): Flow<List<Project>>  = projectDAORepository.getAll()
+    override fun getAll(): Flow<List<Project>>  = projectDAORepository.getAll()
 
-    override suspend fun get(projectRequest: ProjectRequest): Project =
+    override fun get(projectRequest: ProjectRequest): Project =
         projectDAORepository.get(projectRequest)
 
-    override suspend fun create(project: Project): Long =
+    override fun create(project: Project): Long =
         projectDAORepository.create(project)
 
-    override suspend fun deleteById(projectRequest: ProjectRequest): Int =
+    override fun deleteById(projectRequest: ProjectRequest): Int =
         projectDAORepository.deleteById(projectRequest)
 
 

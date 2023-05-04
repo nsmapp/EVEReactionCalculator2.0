@@ -6,5 +6,5 @@ import by.nepravsky.domain.entity.request.Settings
 
 interface MarketerRepository {
 
-    suspend fun request(request: PriceListRequest, settings: Settings): List<OrderPrice>
+    fun request(request: PriceListRequest, settings: Settings): List<OrderPrice>
 }

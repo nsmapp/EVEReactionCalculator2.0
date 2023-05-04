@@ -3,21 +3,22 @@ package by.nepravsky.sm.evereactioncalculator.di
 import android.app.Application
 import coil.Coil
 import coil.ImageLoader
+import coil.request.CachePolicy
 import coil.util.CoilUtils
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
-class App: Application(){
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        startKoin{
+        startKoin {
             androidContext(this@App)
             modules(
-                by.nepravsky.sm.evereactioncalculator.di.presentationModule,
-                by.nepravsky.sm.evereactioncalculator.di.domainModule,
-                by.nepravsky.sm.evereactioncalculator.di.dataModule,
+                presentationModule,
+                domainModule,
+                dataModule,
             )
 
 
@@ -25,11 +26,8 @@ class App: Application(){
 
         val imageLoader = ImageLoader.Builder(applicationContext)
             .crossfade(true)
-            .okHttpClient {
-                OkHttpClient.Builder()
-                    .cache(CoilUtils.createDefaultCache(applicationContext))
-                    .build()
-            }
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .diskCachePolicy(CachePolicy.ENABLED)
             .build()
         Coil.setImageLoader(imageLoader)
     }

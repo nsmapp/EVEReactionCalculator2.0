@@ -15,11 +15,11 @@ class ReactionDAoRepoImpl(
     private val appDatabase: AppDatabase
 ): ReactionDAORepository {
 
-    override suspend fun getAll(settings: Settings): List<ReactionFormula> =
+    override fun getAll(settings: Settings): List<ReactionFormula> =
         appDatabase.reactionDao().getAll()
             .map{toDomain(it,settings.languageId)}
 
-    override suspend fun getByIds(
+    override fun getByIds(
         reactionRequest: ReactionRequest,
         settings: Settings
     ): ReactionFormula = toDomain(
@@ -27,7 +27,7 @@ class ReactionDAoRepoImpl(
         settings.languageId
     )
 
-    override suspend fun hasReactionFormula(
+    override fun hasReactionFormula(
         items: List<ItemRequest>,
         settings: Settings
     ): List<ReactionFormula> = appDatabase.reactionDao()
@@ -35,7 +35,7 @@ class ReactionDAoRepoImpl(
         .map { toDomain(it, settings.languageId) }
 
 
-    override suspend fun getByName(
+    override fun getByName(
         searchReactionRequest: SearchReactionRequest,
         settings: Settings
     ): List<ReactionFormula> {

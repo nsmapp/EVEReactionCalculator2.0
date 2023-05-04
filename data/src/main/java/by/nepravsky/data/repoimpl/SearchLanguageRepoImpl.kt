@@ -4,7 +4,8 @@ import by.nepravsky.data.database.repository.LanguageDAORepository
 import by.nepravsky.domain.entity.presenter.SearchLanguage
 import by.nepravsky.domain.repository.SearchLanguageRepository
 
-class SearchLanguageRepoImpl(private val languageDAORepository: LanguageDAORepository): SearchLanguageRepository {
+class SearchLanguageRepoImpl(private val languageDAORepository: LanguageDAORepository) :
+    SearchLanguageRepository {
 
-    override suspend fun getAll(): List<SearchLanguage> = languageDAORepository.getAll()
+    override fun getAll(): List<SearchLanguage> = languageDAORepository.getAll()
 }

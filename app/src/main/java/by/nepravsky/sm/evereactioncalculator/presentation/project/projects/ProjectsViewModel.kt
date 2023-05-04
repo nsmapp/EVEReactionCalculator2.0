@@ -9,11 +9,12 @@ import by.nepravsky.domain.entity.request.Settings
 import by.nepravsky.domain.usecase.GetItemGroupsUseCase
 import by.nepravsky.domain.usecase.GetSettingsUseCase
 import by.nepravsky.domain.usecase.SearchReactionUseCase
-import by.nepravsky.domain.utils.Result
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.flow.*
+import by.nepravsky.sm.evereactioncalculator.presentation.project.projects.model.ProjectsState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ProjectsViewModel(
     private val searchReactionUseCase: SearchReactionUseCase,
@@ -22,65 +23,52 @@ class ProjectsViewModel(
 ) : ViewModel() {
 
     private val _settings = MutableStateFlow(Settings())
-    val settings = _settings.asStateFlow()
-    private val _reactions = MutableStateFlow<List<ReactionFormula>>(emptyList())
-    val reactions: StateFlow<List<ReactionFormula>> = _reactions.asStateFlow()
-    private val _groups = MutableStateFlow<List<ItemGroup>>(emptyList())
-    val group: StateFlow<List<ItemGroup>> = _groups.asStateFlow()
-    private val _progress = MutableStateFlow(false)
-    val progress = _progress.asStateFlow()
+
+    private val _state = MutableStateFlow<ProjectsState>(ProjectsState.Nothing)
+    val state = _state.asStateFlow()
 
     private val selectedGroups = mutableListOf<ItemGroup>()
 
 
     fun getSettings() {
         viewModelScope.launch {
-            withContext(Main) {
-                when (val setup = getSettingsUseCase.get()) {
-                    is Result.Success -> {
-                        setup.data
-                            .catch { Settings() }
-                            .collect { _settings.value = it }
-                    }
-                    is Result.Error -> {
-                        stopProgress()
-                    }
-                }
-            }
+            getSettingsUseCase.get().collect(
+                Success = { flow ->
+                    flow.catch { Settings() }.collect { handleUpdateSettings(it) }
+                },
+                Error = {}
+            )
         }
+    }
+
+    private fun handleUpdateSettings(it: Settings) {
+        _settings.value = it
+        getGroups(it)
     }
 
     fun searchReaction(name: String) {
         showProgress()
         viewModelScope.launch {
-            withContext(Main) {
-                val reactions = searchReactionUseCase.get(
-                    SearchReactionRequest(name, selectedGroups), settings.value
+            searchReactionUseCase.get(SearchReactionRequest(name, selectedGroups), _settings.value)
+                .collect(
+                    Success = {
+                        _state.value = ProjectsState.UpdateFormulas(it)
+                        stopProgress()
+                    },
+                    Error = { stopProgress() }
                 )
-                when (reactions) {
-                    is Result.Success -> {
-                        _reactions.value = reactions.data
-                        stopProgress()
-                    }
-                    is Result.Error -> {
-                        stopProgress()
-                    }
-                }
-            }
         }
     }
 
-    fun getGroups(settings: Settings) {
+    private fun getGroups(settings: Settings) {
         viewModelScope.launch {
-            withContext(Main) {
-                val groups = getAllGroupsUseCase.get(settings)
-                when (groups) {
-                    is Result.Success -> {
-                        _groups.value = groups.data
-                    }
-                    is Result.Error -> {}
+            getAllGroupsUseCase.get(settings).collect(
+                Success = {
+                    _state.value = ProjectsState.UpdateGroup(it)
+                },
+                Error = {
                 }
-            }
+            )
         }
 
     }
@@ -91,10 +79,10 @@ class ProjectsViewModel(
     }
 
     fun stopProgress() {
-        _progress.value = false
+        _state.value = ProjectsState.ShowProgress(false)
     }
 
     fun showProgress() {
-        _progress.value = true
+        _state.value = ProjectsState.ShowProgress(true)
     }
 }

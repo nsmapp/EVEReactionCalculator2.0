@@ -8,17 +8,17 @@ import kotlinx.coroutines.flow.Flow
 
 interface ReactionProjectItemDaoRepository {
 
-    suspend fun getByParentIdFlow(
+    fun getByParentIdFlow(
         projectRequest: ProjectRequest,
         settings: Settings
     ): Flow<List<ProjectItem>>
 
-    suspend fun getByParentId(
+    fun getByParentId(
         projectRequest: ProjectRequest,
         settings: Settings
     ): List<ProjectItem>
 
-    suspend fun deleteByParentId(projectRequest: ProjectRequest): Int
-    suspend fun deleteById(projectItemRequest: ProjectItemRequest): Int
-    suspend fun save(projectItem: ProjectItem): Long
+    fun deleteByParentId(projectRequest: ProjectRequest): Int
+    fun deleteById(projectItemRequest: ProjectItemRequest): Int
+    fun save(projectItem: ProjectItem): Long
 }

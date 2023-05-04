@@ -6,5 +6,5 @@ import by.nepravsky.domain.entity.request.Settings
 
 interface EveTechRepository {
 
-    suspend fun request(priceRequest: PriceRequest, settings: Settings): OrderPrice
+    fun request(priceRequest: PriceRequest, settings: Settings): OrderPrice
 }

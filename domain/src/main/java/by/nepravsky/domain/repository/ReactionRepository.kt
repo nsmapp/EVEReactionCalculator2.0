@@ -8,19 +8,19 @@ import by.nepravsky.domain.entity.request.Settings
 
 interface ReactionRepository {
 
-    suspend fun getAll(settings: Settings): List<ReactionFormula>
+    fun getAll(settings: Settings): List<ReactionFormula>
 
-    suspend fun getByName(
+    fun getByName(
         searchReactionRequest: SearchReactionRequest,
         settings: Settings
     ): List<ReactionFormula>
 
-    suspend fun get(
+   fun get(
         reactionRequest: ReactionRequest,
         settings: Settings
     ): ReactionFormula
 
-    suspend fun hasReactionFormula(
+    fun hasReactionFormula(
         items: List<ItemRequest>,
         settings: Settings
     ): List<ReactionFormula>

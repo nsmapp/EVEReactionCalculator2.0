@@ -5,7 +5,7 @@
     <string name="settings">Settings</string>
     <string name="base_reaction_time">Base reaction time</string>
     <string name="me">ME</string>
-    <string name="sub_me">Subproduct ME</string>
+    <string name="sub_me">Sub ME</string>
     <string name="run">Run</string>
     <string name="base_materials">base materials</string>
     <string name="build_reaction">Build reaction…</string>
@@ -29,4 +29,28 @@
     <string name="github">GitHub: github.com/nsmapp</string>
     <string name="mail">E-mail: nsmappinfo@gmail.com</string>
     <string name="about">About</string>
+
+    <string name="feature_build_reaction_mask_products">Products: %1$s\n</string>
+    <string name="feature_build_reaction_mask_materials">Materials: %1$s\n</string>
+    <string name="feature_build_reaction_mask_sell_buy">sell: ~%1$s buy: ~%2$s\n</string>
+    <string name="feature_build_reaction_mask_simple_item">%1$s x %2$s\n</string>
+    <string name="feature_build_reaction_mask_eve_item"><![CDATA["%1$s x <url=showinfo:%2$s>%3$s</url>\n"]]></string>
+    <string name="feature_build_reaction_error_failed_create_project">Error: Failed to create a project</string>
+    <string name="feature_build_reaction_error_empty_project">Project is empty</string>
+    <string name="feature_build_reaction_products">Products:</string>
+    <string name="feature_build_reaction_volume">Volume</string>
+    <string name="feature_build_reaction_sell_price">Sell price</string>
+    <string name="feature_build_reaction_minus">-</string>
+    <string name="feature_build_reaction_buy_price">Buy price</string>
+    <string name="eature_build_reaction_materials">Materials:</string>
+    <string name="runs">Runs</string>
+    <string name="description">Description</string>
+    <string name="search_language">Search language</string>
+    <string name="solar_system">Solar system</string>
+    <string name="price_source">Price source</string>
+    <string name="night_mode">Night mode</string>
+    <string name="switch_key">Switch</string>
+    <string name="feature_build_reaction_simple_text">Simple text</string>
+    <string name="feature_build_reaction_for_eve_note">For EVE note</string>
+
 </resources>

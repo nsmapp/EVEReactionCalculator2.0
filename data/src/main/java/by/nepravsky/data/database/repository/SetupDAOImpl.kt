@@ -8,15 +8,14 @@ import kotlinx.coroutines.flow.map
 
 class SetupDAOImpl(
     private val appDatabase: AppDatabase
-): SetupDAORepository {
+) : SetupDAORepository {
 
 
-    override suspend fun getSetup(): Flow<Settings> =
-        appDatabase.setupDao().getSetup()
-            .map { toDomain(it) }
+    override fun getSetup(): Flow<Settings> = appDatabase.setupDao()
+        .getSetup()
+        .map { toDomain(it) }
 
-    override suspend fun save(settings: Settings): Long =
-        appDatabase.setupDao().insert(toData(settings))
+    override fun save(settings: Settings): Long = appDatabase.setupDao().insert(toData(settings))
 
 
     private fun toData(settings: Settings): Setup =

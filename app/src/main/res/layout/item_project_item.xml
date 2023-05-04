@@ -5,14 +5,14 @@
     style="@style/base_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="1dp"
-    app:cardCornerRadius="8dp">
+    android:layout_marginVertical="@dimen/size_micro"
+    app:cardCornerRadius="@dimen/radius_default">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/base_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/size_mini"
         android:minHeight="64dp">
 
         <ImageView
@@ -34,8 +34,7 @@
             style="@style/base_text_view_16_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginHorizontal="@dimen/size_default"
             app:layout_constraintBottom_toTopOf="@+id/reaction_runs"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -48,9 +47,7 @@
             style="@style/base_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginHorizontal="@dimen/size_default"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

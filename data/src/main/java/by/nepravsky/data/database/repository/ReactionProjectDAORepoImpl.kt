@@ -9,17 +9,17 @@ import kotlinx.coroutines.flow.map
 
 class ReactionProjectDAORepoImpl(private val appDatabase: AppDatabase): ReactionProjectDAORepository {
 
-    override suspend fun getAll(): Flow<List<Project>> =
+    override fun getAll(): Flow<List<Project>> =
         appDatabase.reactionProjectDao().getAll()
             .map { it.map { t -> toDomain(t) } }
 
-    override suspend fun deleteById(projectRequest: ProjectRequest): Int =
+    override fun deleteById(projectRequest: ProjectRequest): Int =
         appDatabase.reactionProjectDao().deleteById(projectRequest.projectId)
 
-    override suspend fun create(project: Project): Long =
+    override fun create(project: Project): Long =
         appDatabase.reactionProjectDao().insert(toData(project))
 
-    override suspend fun get(projectRequest: ProjectRequest): Project{
+    override fun get(projectRequest: ProjectRequest): Project{
         val result = appDatabase.reactionProjectDao().getById(projectRequest.projectId)
         return toDomain(result)
     }
