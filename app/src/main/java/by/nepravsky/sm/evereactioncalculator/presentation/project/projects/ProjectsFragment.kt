@@ -17,10 +17,9 @@ import by.nepravsky.sm.evereactioncalculator.databinding.ProjectsFragmentBinding
 import by.nepravsky.sm.evereactioncalculator.presentation.project.projects.adapters.ItemGroupsAdapter
 import by.nepravsky.sm.evereactioncalculator.presentation.project.projects.adapters.ReactionAdapter
 import by.nepravsky.sm.evereactioncalculator.presentation.project.projects.model.ProjectsState
+import by.nepravsky.sm.evereactioncalculator.presentation.recipe.createitem.adapters.ItemGroupListener
 import by.nepravsky.sm.evereactioncalculator.utils.TEXT_EMPTY
-import by.nepravsky.sm.evereactioncalculator.utils.UISettings
 import by.nepravsky.sm.evereactioncalculator.utils.listnersinterface.ItemClickListener
-import by.nepravsky.sm.evereactioncalculator.utils.listnersinterface.ItemSelectedListener
 import by.nepravsky.sm.evereactioncalculator.utils.views.slideToBottom
 import by.nepravsky.sm.evereactioncalculator.utils.views.slideToTop
 import kotlinx.coroutines.flow.collectLatest
@@ -28,9 +27,8 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class ProjectsFragment : Fragment(), ItemClickListener<ReactionFormula>,
-    ItemSelectedListener<List<ItemGroup>> {
+     ItemGroupListener{
 
-    private val uiSettings: UISettings by inject()
     private val viewModel: ProjectsViewModel by inject()
     private lateinit var binding: ProjectsFragmentBinding
     private val reactionRAdapter = ReactionAdapter(this)
@@ -120,11 +118,6 @@ class ProjectsFragment : Fragment(), ItemClickListener<ReactionFormula>,
         reactionRAdapter.setItems(state.data)
     }
 
-    override fun selectedItems(selectedItems: List<ItemGroup>) {
-        viewModel.setSelectedItemGroups(selectedItems)
-        viewModel.searchReaction(binding.etReactionSearch.text.toString())
-    }
-
     override fun onItemClick(item: ReactionFormula) {
         val action = ProjectsFragmentDirections.toBuildReaction()
             .setReactionId(item.id)
@@ -132,5 +125,8 @@ class ProjectsFragment : Fragment(), ItemClickListener<ReactionFormula>,
         findNavController().navigate(action)
     }
 
+    override fun updateGroupSelection(id: Int, isSelection: Boolean) {
+        viewModel.updateGroupSelection(id, isSelection)
+    }
 
 }

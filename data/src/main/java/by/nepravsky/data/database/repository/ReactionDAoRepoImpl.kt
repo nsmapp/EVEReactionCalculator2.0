@@ -39,8 +39,7 @@ class ReactionDAoRepoImpl(
         searchReactionRequest: SearchReactionRequest,
         settings: Settings
     ): List<ReactionFormula> {
-        val reactions = appDatabase.reactionDao()
-            .getByGroup(searchReactionRequest.itemGroup.map { it.id })
+        val reactions = appDatabase.reactionDao().getSelectedGroup()
         val filters = filterByName(reactions, searchReactionRequest.name, settings.languageId)
         return filters.map { toDomain(it, settings.languageId) }
     }

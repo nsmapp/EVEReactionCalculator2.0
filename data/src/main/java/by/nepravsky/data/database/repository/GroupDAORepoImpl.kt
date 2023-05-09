@@ -14,11 +14,16 @@ class GroupDAORepoImpl(private val appDatabase: AppDatabase) : GroupDAORepositor
                 toDomain(it, settings, reaction.id)
             }
 
+    override fun updateSelection(id: Int, isSelection: Boolean) {
+        appDatabase.groupDao().updateSelection(id, isSelection)
+    }
+
 
     private fun toDomain(group: Group, settings: Settings, iconId: Int): ItemGroup =
         ItemGroup(
             group.id,
             group.isFormula,
+            group.isSelected,
             group.category,
             group.getName(settings.languageId),
             iconId

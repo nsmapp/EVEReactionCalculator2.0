@@ -3,6 +3,8 @@ package by.nepravsky.sm.evereactioncalculator.di
 import BaseReactionUseCase
 import by.nepravsky.domain.usecase.FullReactionUseCase
 import by.nepravsky.domain.usecase.*
+import by.nepravsky.domain.usecase.group.GetItemGroupsUseCase
+import by.nepravsky.domain.usecase.group.UpdateGroupSelectionUseCase
 import by.nepravsky.domain.usecase.productline.*
 import org.koin.dsl.module
 
@@ -34,6 +36,8 @@ val domainModule = module{
     factory<GetSettingsUseCase> { GetSettingsUseCase(settingsRepository = get()) }
 
     factory<GetItemGroupsUseCase> { GetItemGroupsUseCase(itemGroupRepo = get()) }
+
+    factory<UpdateGroupSelectionUseCase> { UpdateGroupSelectionUseCase(itemGroupRepository = get()) }
 
     factory<GetSearchLanguageUseCase> {GetSearchLanguageUseCase(searchLanguageRepository = get()) }
 

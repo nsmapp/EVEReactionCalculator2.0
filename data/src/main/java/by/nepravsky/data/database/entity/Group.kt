@@ -15,6 +15,9 @@ data class Group(
     @ColumnInfo(name = IS_FORMULA)
     val isFormula: Boolean,
 
+    @ColumnInfo(name = IS_SELECTED)
+    val isSelected: Boolean,
+
     @ColumnInfo(name = CATEGORY)
     val category: Int,
 
@@ -40,6 +43,7 @@ data class Group(
         const val TABLE_NAME = "type_group"
         const val ID = "id"
         const val IS_FORMULA = "is_formula"
+        const val IS_SELECTED = "is_selected"
         const val CATEGORY = "category"
         const val DE = "de"
         const val EN = "en"

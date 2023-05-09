@@ -18,7 +18,8 @@ val presentationModule = module {
         ProjectsViewModel(
             searchReactionUseCase = get(),
             getSettingsUseCase = get(),
-            getAllGroupsUseCase = get()
+            getAllGroupsUseCase = get(),
+            updateGroupSelectionUseCase = get()
         )
     }
 
@@ -66,7 +67,8 @@ val presentationModule = module {
             searchReactionUseCase = get(),
             getSettingsUseCase = get(),
             getAllGroupsUseCase = get(),
-            saveProjectItemUseCase = get()
+            saveProjectItemUseCase = get(),
+            updateGroupSelectionUseCase = get()
         )
     }
 

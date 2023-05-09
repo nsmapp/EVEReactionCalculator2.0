@@ -38,6 +38,8 @@
                 android:id="@+id/et_reaction_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
                 android:textColorHint="#546E7A" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,7 +76,9 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/size_micro"
         android:contentDescription="@string/reaction_list"
+        android:fadeScrollbars="false"
         android:orientation="vertical"
+        android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

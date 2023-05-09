@@ -9,4 +9,8 @@ class ItemGroupRepoImpl(private val groupDAORepository: GroupDAORepository): Ite
 
     override fun getAll(settings: Settings): List<ItemGroup> =
         groupDAORepository.getAll(settings)
+
+    override fun updateSelection(id: Int, isSelection: Boolean) =
+        groupDAORepository.updateSelection(id, isSelection)
+
 }

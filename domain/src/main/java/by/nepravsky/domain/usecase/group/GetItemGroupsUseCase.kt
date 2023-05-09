@@ -1,4 +1,4 @@
-package by.nepravsky.domain.usecase
+package by.nepravsky.domain.usecase.group
 
 import by.nepravsky.domain.entity.Answer
 import by.nepravsky.domain.entity.domain.ItemGroup

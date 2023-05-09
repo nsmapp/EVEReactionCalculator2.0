@@ -7,12 +7,14 @@ import by.nepravsky.domain.entity.base.ReactionFormula
 import by.nepravsky.domain.entity.domain.ItemGroup
 import by.nepravsky.domain.entity.request.SearchReactionRequest
 import by.nepravsky.domain.entity.request.Settings
-import by.nepravsky.domain.usecase.GetItemGroupsUseCase
+import by.nepravsky.domain.usecase.group.GetItemGroupsUseCase
 import by.nepravsky.domain.usecase.GetSettingsUseCase
 import by.nepravsky.domain.usecase.SearchReactionUseCase
+import by.nepravsky.domain.usecase.group.UpdateGroupSelectionUseCase
 import by.nepravsky.domain.usecase.productline.SaveProjectItemUseCase
 import by.nepravsky.domain.utils.excepts.BrokenDateException
 import by.nepravsky.domain.utils.parseToInt
+import by.nepravsky.sm.evereactioncalculator.utils.TEXT_EMPTY
 import by.nepravsky.sm.evereactioncalculator.utils.events.Event
 import by.nepravsky.sm.evereactioncalculator.utils.events.EventFinish
 import by.nepravsky.sm.evereactioncalculator.utils.events.EventShowSnackBar
@@ -31,7 +33,8 @@ class ItemCreateViewModel(
     private val searchReactionUseCase: SearchReactionUseCase,
     private val getSettingsUseCase: GetSettingsUseCase,
     private val getAllGroupsUseCase: GetItemGroupsUseCase,
-    private val saveProjectItemUseCase: SaveProjectItemUseCase
+    private val saveProjectItemUseCase: SaveProjectItemUseCase,
+    private val updateGroupSelectionUseCase: UpdateGroupSelectionUseCase
 ) : ViewModel() {
 
     private val _settings = MutableStateFlow(Settings())
@@ -48,7 +51,11 @@ class ItemCreateViewModel(
     val progress = _progress.asStateFlow()
 
     private var projectId = -1
-    private val selectedGroups = mutableListOf<ItemGroup>()
+    private var searchText: String = TEXT_EMPTY
+
+    init {
+        searchReaction(searchText)
+    }
 
     fun getSettings() {
         viewModelScope.launch {
@@ -61,8 +68,9 @@ class ItemCreateViewModel(
 
     fun searchReaction(name: String) {
         showProgress()
+        searchText = name
         viewModelScope.launch {
-            searchReactionUseCase.get(SearchReactionRequest(name, selectedGroups), settings.value)
+            searchReactionUseCase.get(SearchReactionRequest(name), settings.value)
                 .collect(
                     Success = {
                         _reactions.value = it
@@ -97,11 +105,6 @@ class ItemCreateViewModel(
             }
         }
 
-    }
-
-    fun setSelectedItemGroups(groups: List<ItemGroup>) {
-        selectedGroups.clear()
-        selectedGroups.addAll(groups)
     }
 
     fun initProjectItem(itemId: Int, runs: Int, name: String, projectId: Int) {
@@ -145,6 +148,15 @@ class ItemCreateViewModel(
 
     fun showProgress() {
         _progress.value = true
+    }
+
+    fun updateGroupSelection(id: Int, selection: Boolean) {
+        viewModelScope.launch {
+            updateGroupSelectionUseCase.updateSelection(id, selection).collect(
+                Success = { searchReaction(searchText) },
+                Error = { searchReaction(searchText) }
+            )
+        }
     }
 
 }

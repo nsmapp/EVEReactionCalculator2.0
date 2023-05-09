@@ -20,7 +20,7 @@ import by.nepravsky.data.database.typeconverter.ReactionElementConverter
         TypePriceSource::class,
         ProjectReaction::class,
         ProjectReactionItem::class],
-    version = 32
+    version = 33
     )
 @TypeConverters(ReactionElementConverter::class)
 abstract class AppDatabase: RoomDatabase() {

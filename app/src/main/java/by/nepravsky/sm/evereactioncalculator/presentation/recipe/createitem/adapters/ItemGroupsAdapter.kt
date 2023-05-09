@@ -5,20 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.nepravsky.sm.evereactioncalculator.databinding.ItemGroupBinding
 import by.nepravsky.domain.entity.domain.ItemGroup
-import by.nepravsky.domain.entity.presenter.ItemGroupSelected
-import by.nepravsky.sm.evereactioncalculator.utils.listnersinterface.ItemSelectedListener
+import by.nepravsky.domain.utils.getItemImageURL
+import coil.load
 
 class ItemGroupsAdapter(
-    private val itemSelectedListener: ItemSelectedListener<List<ItemGroup>>
+    private val itemGroupListener: ItemGroupListener
 ) : RecyclerView.Adapter<ItemGroupsAdapter.ItemGroupHolder>() {
 
 
-    private val items = mutableListOf<ItemGroupSelected>()
+    private val items = mutableListOf<ItemGroup>()
 
     fun setItems(items: List<ItemGroup>) {
         this.items.clear()
-        this.items.addAll(items.map { ItemGroupSelected(it, it.isFormula) })
-        sendSelected()
+        this.items.addAll(items)
         notifyDataSetChanged()
     }
 
@@ -34,22 +33,19 @@ class ItemGroupsAdapter(
 
     override fun onBindViewHolder(holder: ItemGroupHolder, position: Int) {
         val item = items[position]
-        holder.binding.apply {
-            cbIsSelected.setOnCheckedChangeListener(null)
-            tvGroupName.text = item.itemGroup.name
-            cbIsSelected.isChecked = item.isSelected
-        }
-        holder.binding.cbIsSelected.setOnCheckedChangeListener { _, b ->
-            items[position].isSelected = b
-            sendSelected()
-        }
-    }
 
-    private fun sendSelected() {
-        itemSelectedListener.selectedItems(
-            items.filter { it.isSelected }
-                .map { it.itemGroup }
-        )
+        with(holder.binding) {
+            cbIsSelected.setOnCheckedChangeListener(null)
+            tvGroupName.text = item.name
+            cbIsSelected.isChecked = item.isSelected
+            ivGroup.load(getItemImageURL(item.iconId))
+            cbIsSelected.setOnCheckedChangeListener { _, isSelected ->
+                itemGroupListener.updateGroupSelection(item.id, isSelected)
+            }
+            root.setOnClickListener {
+                cbIsSelected.isChecked = !cbIsSelected.isChecked
+            }
+        }
     }
 
     override fun getItemCount(): Int = items.size
