@@ -66,8 +66,8 @@ val dataModule = module {
 
 
 private fun provideDatabase(context: Context): AppDatabase {
-    return Room.databaseBuilder(context, AppDatabase::class.java, "reactionsn2new.db")
-        .createFromAsset("reactions2dbnew")
+    return Room.databaseBuilder(context, AppDatabase::class.java, "reactionsv34.db")
+        .createFromAsset("reactionsv34")
         .fallbackToDestructiveMigration()
         .addTypeConverter(ReactionElementConverter())
         .build()

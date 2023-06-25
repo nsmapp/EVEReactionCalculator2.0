@@ -23,10 +23,11 @@
             android:layout_height="0dp"
             android:clickable="true"
             android:focusable="true"
+            android:scaleType="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/outline_play_arrow_24" />
+            app:srcCompat="@drawable/outline_tune_24" />
 
         <TextView
             android:id="@+id/tv_project_name"
