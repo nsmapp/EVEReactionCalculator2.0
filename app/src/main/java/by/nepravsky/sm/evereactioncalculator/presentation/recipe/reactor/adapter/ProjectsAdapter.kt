@@ -39,10 +39,10 @@ class ProjectsAdapter(
             tvDescription.text = item.description
 
             ivEdit.setOnClickListener {
-                projectClickContract.onRunProject(item.id)
+                projectClickContract.onEditItemClick(item.id)
             }
             root.setOnClickListener {
-                projectClickContract.onEditItemClick(item.id)
+                projectClickContract.onRunProject(item.id)
             }
             root.setOnLongClickListener {
                 projectClickContract.onRunProject(item.id)
